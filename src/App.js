@@ -71,18 +71,7 @@ function App() {
             </div>
           )}
 
-          <div className="text-center mt-4 text-sm">
-            <button
-              onClick={() => {
-                setIsPremiumUser(!isPremiumUser);
-                localStorage.setItem('isPremiumUser', String(!isPremiumUser));
-              }}
-              className="text-indigo-300 underline hover:text-white"
-            >
-              {isPremiumUser ? 'Switch to Free Mode' : 'Switch to Premium Mode'}
-            </button>
-          </div>
-        </section>
+          </section>
       </main>
 
       {showUpsell && <UpsellModal onClose={() => setShowUpsell(false)} />}
