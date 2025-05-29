@@ -9,28 +9,43 @@ const moods = [
   { label: 'Energized', emoji: '🤩', value: 5 },
 ];
 
-const MoodSelector = ({ selectedMood, onSelect }) => {
+const MoodSelector = ({ mood, setMood }) => {
+  const handleMoodClick = (value) => {
+    console.log('Mood clicked:', value);
+    setMood(value);
+  };
+
   return (
     <div className="mb-4 text-center">
       <p className="text-indigo-300 mb-2">How are you feeling today?</p>
       <div className="flex justify-center space-x-4">
-        {moods.map((mood) => (
+        {moods.map((moodOption) => (
           <button
-            key={mood.value}
-            onClick={() => onSelect(mood.value)}
-            className={`text-3xl transition-transform transform hover:scale-110 focus:outline-none ${
-              selectedMood === mood.value ? 'ring-2 ring-white rounded-full' : ''
+            key={moodOption.value}
+            onClick={() => handleMoodClick(moodOption.value)}
+            className={`text-3xl p-2 transition-all duration-200 transform hover:scale-110 focus:outline-none ${
+              mood === moodOption.value 
+                ? 'ring-4 ring-white ring-opacity-80 rounded-full bg-indigo-500 bg-opacity-30 scale-110' 
+                : 'hover:bg-indigo-500 hover:bg-opacity-20 rounded-full'
             }`}
-            title={mood.label}
-            aria-label={mood.label}
+            title={moodOption.label}
+            aria-label={moodOption.label}
+            type="button"
           >
-            {mood.emoji}
+            {moodOption.emoji}
           </button>
         ))}
       </div>
-      <p className="mt-2 text-indigo-400 text-sm">
-        Mood: {selectedMood ? moods.find((m) => m.value === selectedMood).label : 'Not selected'}
-      </p>
+      <div className="mt-3">
+        <p className="text-indigo-400 text-sm">
+          Selected mood: {mood ? moods.find((m) => m.value === mood)?.label || 'Unknown' : 'None selected'}
+        </p>
+        {mood && (
+          <p className="text-indigo-300 text-xs mt-1">
+            Value: {mood} | {moods.find((m) => m.value === mood)?.emoji}
+          </p>
+        )}
+      </div>
     </div>
   );
 };

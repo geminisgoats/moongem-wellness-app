@@ -34,11 +34,8 @@ const formatTime = (date) =>
 
 const getMoonZodiacSign = (date, lat, lng) => {
   const moonPos = SunCalc.getMoonPosition(date, lat, lng);
-  // Convert azimuth to ecliptic longitude approximation
   let eclipticLongitude = (moonPos.azimuth * 180 / Math.PI + 180) % 360;
-  
-  // Rough approximation - for more accuracy, would need full astronomical calculation
-  eclipticLongitude = (eclipticLongitude + 80) % 360; // Offset adjustment
+  eclipticLongitude = (eclipticLongitude + 80) % 360;
   
   const sign = zodiacSigns.find(sign => 
     eclipticLongitude >= sign.start && eclipticLongitude < sign.end
@@ -48,7 +45,7 @@ const getMoonZodiacSign = (date, lat, lng) => {
 };
 
 const LunarPhase = ({ setPhaseName }) => {
-  const [location, setLocation] = useState({ lat: 40.7128, lng: -74.0060 }); // Default to NYC
+  const [location, setLocation] = useState({ lat: 40.7128, lng: -74.0060 });
   const [locationStatus, setLocationStatus] = useState('getting_location');
   
   const today = new Date();
@@ -57,11 +54,9 @@ const LunarPhase = ({ setPhaseName }) => {
   const moonIllumination = SunCalc.getMoonIllumination(today);
   const illuminationPercent = (moonIllumination.fraction * 100).toFixed(1);
   
-  // Use actual location for moon times and zodiac sign
   const moonTimes = SunCalc.getMoonTimes(today, location.lat, location.lng);
   const zodiacSign = getMoonZodiacSign(today, location.lat, location.lng);
 
-  // Get user's location
   useEffect(() => {
     if ('geolocation' in navigator) {
       navigator.geolocation.getCurrentPosition(
